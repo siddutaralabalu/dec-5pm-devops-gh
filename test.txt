@@ -1,2 +1,0 @@
-text files for testing basic git commands
-text files for testing basic git commands
