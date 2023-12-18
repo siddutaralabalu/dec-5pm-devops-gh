@@ -1,3 +1,6 @@
 new project file
 modifiying filea
+<<<<<<< HEAD
  veeresh is topper in devops
+=======
+>>>>>>> ff5c17dcc88e0fe43a43691c68c897aa96c4903c
