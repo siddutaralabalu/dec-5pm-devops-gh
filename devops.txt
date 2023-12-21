@@ -1,3 +1,8 @@
 New task in devops project
  veeresh is topper in devops
 adding data
+<<<<<<< Updated upstream
+=======
+editing files for stashing
+editing file for stashing
+>>>>>>> Stashed changes
