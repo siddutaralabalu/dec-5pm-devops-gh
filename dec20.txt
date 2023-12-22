@@ -1,3 +1,7 @@
 siddu taralabalu shiva
 bangalore
+<<<<<<< HEAD
+editing files for stashing
+=======
 siddu besant technology
+>>>>>>> master
