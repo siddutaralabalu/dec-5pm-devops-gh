@@ -42,8 +42,8 @@ node {
     sh "docker pull fedora"
     sh "docker images"
     sh "docker pull centos"
-    sh "sudo apt-get update"
-    sh "sudo apt-get install jenkins"
+    sh "sudo yum update -y"
+    sh "sudo yum install -y git docker java"
     sh "sudo systemctl status jenkins"
     sh "sudo systemctl enable jenkins"
     
