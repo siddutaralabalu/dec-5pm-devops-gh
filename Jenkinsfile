@@ -44,10 +44,15 @@ node {
     sh "docker pull fedora"
     sh "docker images"
     sh "docker pull centos"
+<<<<<<< HEAD
     sh "docker images"
     sh "docker run -dit --name test-ubuntu ubuntu:latest"
     sh "docker rm test-ubuntu --force"
     sh "docker rmi ubuntu amazonlinux fedora centos --force"
     sh "docker images"
     sh "docker ps -a"
+=======
+    sh "sudo systemctl status jenkins"
+    sh "sudo systemctl enable jenkins"
+>>>>>>> 9e2a940 (Update Jenkinsfile)
 } 
