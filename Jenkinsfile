@@ -44,7 +44,7 @@ node {
     sh "docker pull centos"
     sh "sudo yum update -y"
     sh "sudo yum install -y git docker java"
-    sh "sudo systemctl status jenkins"
     sh "sudo systemctl enable jenkins"
+    sh "sudo systemctl status jenkins"
     
 } 
