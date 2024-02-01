@@ -42,5 +42,8 @@ node {
     sh "docker pull fedora"
     sh "docker images"
     sh "docker pull centos"
+    sh "docker images"
+    sh "docker run -dit --name test-ubuntu ubuntu:latest"
+    sh "docker ps -a"
     
 } 
