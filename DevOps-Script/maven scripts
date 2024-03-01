@@ -1,0 +1,61 @@
+# Update the system
+sudo yum update -y
+
+# Install Java (if not already installed)
+sudo yum install java-1.8.0-openjdk -y
+
+# Download and extract Apache Maven
+sudo wget https://mirror.cogentco.com/pub/apache/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
+sudo tar -xf apache-maven-3.8.4-bin.tar.gz -C /opt
+sudo ln -s /opt/apache-maven-3.8.4 /opt/maven
+
+# Add Maven to the system PATH
+echo 'export M2_HOME=/opt/maven' | sudo tee -a /etc/profile.d/maven.sh
+echo 'export PATH=${M2_HOME}/bin:${PATH}' | sudo tee -a /etc/profile.d/maven.sh
+sudo chmod +x /etc/profile.d/maven.sh
+source /etc/profile.d/maven.sh
+
+# Verify Maven installation
+mvn --version
+
+
+
+
+vi  maven.sh
+
+#!/bin/bash
+sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+sudo yum install -y apache-maven
+mvn --version
+# Verify Maven installation
+mvn --version
+
+sh -x maven.sh
+
+
+
+wget https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
+sudo tar xvf apache-maven-3.9.5-bin.tar.gz -C /opt
+sudo ln -s /opt/apache-maven-3.9.5  /opt/maven
+export M2_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+sudo chmod +x /etc/profile.d/maven.sh
+source /etc/profile.d/maven.sh
+mvn -version
+
+
+
+#!/bin/bash
+wget https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
+sudo tar xvf apache-maven-3.9.5-bin.tar.gz -C /opt
+sudo ln -s /opt/apache-maven-3.9.5  /opt/maven
+export M2_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+sudo chmod +x /etc/profile.d/apache-maven.sh
+source /etc/profile.d/apache-maven.sh
+mvn -version
+
+
+
+
