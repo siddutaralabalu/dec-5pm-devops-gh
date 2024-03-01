@@ -1,0 +1,17 @@
+https://awscli.amazonaws.com/AWSCLIV2.msi
+this aws cli download once enough------ go to cmd in windows aws --version 
+
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html 
+above link is install or update latest version of aws command line interface
+
+https://www.thegeekstuff.com/2019/04/aws-s3-cli-examples/ 
+above link is AWS S3 cli 
+
+https://www.thegeekstuff.com/2016/04/aws-ec2-cli-examples/
+above link is AWS EC2 cli 
+
+https://www.thegeekstuff.com/2020/09/aws-transitgateway-attachments-cli/
+above link is AWS VPC cli
+
+https://dev.to/aws-builders/aws-iam-cli-a-cheatsheet-3g7o
+above link is AWS IAM cli

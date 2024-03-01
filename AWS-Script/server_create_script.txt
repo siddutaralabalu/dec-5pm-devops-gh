@@ -1,0 +1,32 @@
+#!/bin/bash
+echo "*** Installing httpd"
+sudo yum update -y
+sudo yum install -y httpd
+sudo systemctl restart httpd
+sudo systemctl enable httpd
+sudo yum install wget
+sudo yum install unzip
+cd /var/www/html/
+wget https://www.free-css.com/assets/files/free-css-templates/download/page278/brandon.zip
+sudo unzip brandon.zip
+sudo mv -f brandon/* .
+sudo systemctl restart httpd
+sudo systemctl enable httpd
+
+
+
+
+#!/bin/bash
+echo "*** Installing httpd"
+sudo yum update -y
+sudo yum install -y httpd
+sudo systemctl restart httpd
+sudo systemctl enable httpd
+sudo yum install wget
+sudo yum install unzip
+cd /var/www/html/
+wget https://www.free-css.com/assets/files/free-css-templates/download/page296/spering.zip
+sudo unzip spering.zip
+sudo mv -f spering-html/* .
+sudo systemctl restart httpd
+sudo systemctl enable httpd

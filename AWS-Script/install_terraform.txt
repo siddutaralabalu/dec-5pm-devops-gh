@@ -1,0 +1,12 @@
+
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y yum-utils git
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum -y install terraform
+terraform -help
+touch ~/.bashrc
+terraform -install-autocomplete
+sudo yum install -y docker git
+sudo systemctl restart docker
+sudo systemctl enable docker
