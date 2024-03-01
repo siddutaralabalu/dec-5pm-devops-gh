@@ -1,0 +1,8 @@
+Vi install.sh
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y docker git
+sudo systemctl restart docker
+sudo systemctl enable docker
+sudo echo "Docker-server" > /etc/hostname
+sudo bash
