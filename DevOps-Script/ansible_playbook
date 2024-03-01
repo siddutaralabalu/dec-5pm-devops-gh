@@ -1,0 +1,327 @@
+PLAYBOOK Target, variable, Task, handle
+
+•	Vi target.yml 
+---
+ - hosts: all
+   user: root
+   become: yes
+   become_method: sudo
+   vars:
+     test: "testing the variable section example in playbook"
+   tasks:
+     - name: this is an example for variable
+       debug:
+         msg: "{{ test }}"
+
+
+
+•  Vi task.yml
+---
+ - hosts: all
+   user: ec2-user
+   become: yes
+   become_method: sudo
+   vars:
+     country:
+       - US
+       - INDIA
+       - AU
+       - UK
+       - BRITISH
+   tasks:
+   - name: list the countries
+     debug:
+      msg: "{{ country[2] }}"
+
+
+
+TASKS SECTION:
+
+---
+- hosts: all
+  user: ec2-user
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install PHP on the remote machine
+      yum:
+        name: php
+        state: present
+
+    - name: Install httpd on the remote machine
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start the httpd service
+      service:
+        name: httpd
+        state: started
+
+    - name: Copy index.html to remote machine
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+         dest: /var/www/html/index.html
+
+
+LOOPS CONCEPT 
+Vi loop.yml
+
+---
+ - hosts: all
+   user: root
+   become: yes
+   become_method: sudo
+   tasks:
+   - name: installing packages in loop concept
+     yum:
+      name: ['httpd', 'tomcat', 'docker', 'python3', 'java', 'php']
+      state: latest
+
+
+Register concept 
+
+Vi register.yml
+
+---
+ - hosts: all
+   user: root
+   become: yes
+   become_method: sudo
+   tasks:
+   - name: list the files inside folder
+     command: ls /etc/
+     register: output
+   - name: print the output
+     debug: msg=" {{ output }}"
+
+
+
+PROMPTS concept   
+
+Vi prompt.yml
+
+---
+ - hosts: all
+   user: root
+   become: yes
+   become_method: sudo
+   tasks:
+   - name: list the files inside folder
+     command: ls /etc/
+     register: output
+   - name: print the output
+     debug: msg=" {{ output }}"
+
+
+
+Vi prompt-1.yml
+
+---
+- hosts: all
+  user: root
+  become: yes
+  become_method: sudo
+  vars_prompt:
+    - name: username
+      prompt: "Please enter the username"
+      private: no
+    - name: password
+      prompt: "please enter the password"
+      private: no
+    - name: sshkeys
+      prompt: "mention the location of the ssh .pem key"
+      private: no
+  tasks:
+    - name: creating the user {{ username }}
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+    - name: generating ssh key
+      user:
+        name: "{{ username }}"
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: "{{ sshkeys }}"
+
+
+
+
+---
+ - hosts: all
+   user: root
+   become: yes
+   become_method: sudo
+   vars_prompt:
+   - name: username
+     prompt: "Please enter the username"
+     private: no
+   - name: password
+     prompt: "please enter the password"
+     private: no
+   - name: "sshkeys"
+     prompt: "mention the location of the ssh .pem key"
+     private: no
+   tasks:
+    - name: creating the user {{ username }}
+      user: name={{ username }} password={{ password }}
+    - name: generating ssh key
+      user: name={{ username }} generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file="{{ sshkeys }}"
+
+
+Ansible Tags
+
+Vi tags.yml
+
+---
+  - hosts: 127.0.0.1
+    become: true
+    become_method: sudo
+    vars:
+      packages1: git
+      packages2: docker
+      packages3: httpd
+    tasks:
+    - name: installing multiple {{ packages1 }}
+      yum: name={{ packages1 }} state=latest
+      tags: git
+
+    - name: installing multiple {{ packages2 }}
+      yum: name={{ packages2 }} state=latest
+      tags: docker
+
+    - name: installing multiple {{ packages3 }}
+      yum: name={{ packages3 }} state=latest
+      tags: httpd
+
+
+
+vi vars.yml
+
+---
+  - hosts: all
+    become: true
+    become_method: sudo
+    tasks:
+    - name: installing multiple {{ packages1 }}
+      yum: name={{ packages1 }} state=latest
+
+    - name: installing multiple {{ packages2 }}
+      yum: name={{ packages2 }} state=latest
+
+    - name: installing multiple {{ packages3 }}
+      yum: name={{ packages3 }} state=latest
+
+ansible-playbook vars.yml -e '{"packages1":"git","packages2":"java","packages3":"httpd"}'
+
+
+
+
+Include and importing concept 
+
+Include type:-
+
+•	Vi tasks1.yml
+
+---
+ - hosts: all
+   user: root
+   become: yes
+   become_method: sudo
+   tasks:
+   - name: this is first task executing
+     yum: name=tomcat state=present
+   - include_tasks: tasks2.yml
+   - include_tasks: tasks3.yml
+   - include_tasks: tasks4.yml
+   - include_tasks: tasks5.yml
+
+
+•	Vi tasks2.yml
+---  
+ - name: This is the 2nd task
+    Yum: name=httpd state=latest
+
+
+•	Vi tasks3.yml
+---  
+ - name: This is the 3rd task
+    Yum: name=java state=latest
+
+
+•	Vi tasks4.yml
+---  
+ - name: This is the 4th task
+    Yum: name=docker state=latest
+
+
+•	Vi tasks5.yml
+---  
+ - name: This is the 5th task
+    Yum: name=tomcat state=latest
+
+
+Importing type :- 
+
+vi play1.yml
+---
+- hosts: all
+  user: root
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: running from 1st playbook
+      yum: name=git state=latest
+    - name: running again from 1st playbook
+      yum: name=docker state=latest
+- import_playbook: play2.yml
+- import_playbook: play3.yml
+- import_playbook: play4.yml
+
+Vi play2.yml
+---
+- hosts: all
+  user: root
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: running from 2nd playbook
+      yum: name=mysql state=latest
+    - name: running again from 2nd playbook
+      yum: name=httpd state=latest
+
+
+Vi play3.yml
+
+---
+- hosts: all
+  user: root
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: running from 3rd playbook
+      yum: name=docker state=latest
+    - name: running again from 3rd playbook
+      yum: name=httpd state=latest
+
+Vi play4.yml
+
+---
+- hosts: all
+  user: root
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: running from 4th playbook
+      yum: name=java state=latest
+    - name: running again from 4th  playbook
+      copy: src=/etc/ansible/index.html dest=/var/www/html
+
+
+
+
+
+
+
+
