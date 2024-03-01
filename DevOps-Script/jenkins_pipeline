@@ -1,0 +1,54 @@
+#docker installation
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y docker
+sudo systemctl restart docker
+sudo systemctl enable docker
+sudo docker --version
+
+
+Shivananda, 17:58
+#docker downloading images from hub
+#!/bin/bash
+sudo docker images
+sudo docker pull ubuntu
+sudo docker image pull fedora
+sudo docker image pull debian
+sudo docker image pull centos
+sudo docker image pull amazonlinux
+sudo docker images
+
+
+Shivananda, 18:05
+# Building the image from dockerfile
+#!/bin/bash
+sudo  ls -al
+sudo docker images
+sudo docker build -t docker-image-from-file .
+sudo docker images
+
+#docker create containers
+#!/bin/bash
+sudo docker run -dit --name ubuntu-container ubuntu
+sudo docker run -dit --name debian-container debian
+sudo docker run -dit --name amazon-container amazonlinux
+sudo docker run -dit --name httpd-container httpd
+
+# verify the docker images and containers
+#!/bin/bash
+sudo docker images
+sudo docker ps
+sudo docker container ls
+sudo docker ps -a
+sudo docker container ls -a
+
+#remove all containers and images
+#!/bin/bash
+sudo docker images
+sudo docker ps -a
+sudo docker stop httpd-container amazon-container  debian-container ubuntu-container
+sudo docker rm -vf $(sudo docker ps -a -q)
+sudo docker rmi -f $(sudo docker images -a -q)
+sudo docker rm httpd-container amazon-container  debian-container ubuntu-container
+sudo docker rmi ubuntu amazonlinux httpd debian fedora centos
+sudo docker images
