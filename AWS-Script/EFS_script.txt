@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y amazon-efs-utils
+sudo mkdir -p /root/efs
+sudo hostname EFS-client-1
+sudo bash
