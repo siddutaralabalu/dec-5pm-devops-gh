@@ -1,0 +1,43 @@
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y java
+sudo yum install -y git
+sudo yum install -y docker
+sudo systemctl restart docker
+sudo systemctl enable docker
+sudo mkdir -p /home/ec2-user/slave
+sudo chmod 777 /home/ec2-user/slave
+sudo echo "Jenkins-slave" > /etc/hostname
+sudo bash
+
+
+
+
+pipeline {
+		agent { label 'slave-1'} 
+			stages {
+				stage ( "1. creating some child folders"){
+					steps {
+						sh "mkdir -p declarative-pipeline/test"
+						sh "mkdir -p jenkins-pipeline-code"
+					}
+				}
+				stage ("2. installing tomcat application") {
+					steps {
+					   sh "sudo yum update -y"
+					   sh "sudo yum install -y tomcat"
+					   sh "date"
+					   sh "cal 2024"
+					   }
+					}
+				stage ("3. installing java application") {
+					steps {
+					   sh "sudo yum update -y"
+					   sh "sudo yum install -y java"
+					   sh "free -m"
+					   sh "uptime"
+					   }
+					}
+			}
+			
+		}
