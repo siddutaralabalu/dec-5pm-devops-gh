@@ -7,7 +7,7 @@ sudo systemctl enable docker
 sudo docker --version
 
 
-Shivananda, 17:58
+
 #docker downloading images from hub
 #!/bin/bash
 sudo docker images
@@ -19,7 +19,6 @@ sudo docker image pull amazonlinux
 sudo docker images
 
 
-Shivananda, 18:05
 # Building the image from dockerfile
 #!/bin/bash
 sudo  ls -al
