@@ -1,0 +1,94 @@
+    2  sudo yum update -y
+    3  sudo yum install httpd php gcc glibc glibc-common gd gd-devel make net-snmp -y
+    4  clear
+    5  wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.6.tar.gz
+    6  tar -xzf nagios-4.4.6.tar.gz
+    7  clear
+    8  ls
+    9  cd nagios-4.4.6/
+   10  ls
+   11  ./configure
+   12  clear
+   13  make all
+   14  clear
+   15  sudo make install
+   16  cat /etc/passwd | grep  nagios
+   17  sudo useradd nagios
+   18  sudo passwd nagios
+   19  sudo passwd nagios
+   20  sudo make install
+   21  clear
+   22  sudo make install-init
+   23  sudo make install-commandmode
+   24  sudo make install-config
+   25  clear
+   26  sudo make install-webconf
+   27  cd
+   28  wget http://www.nagios-plugins.org/download/nagios-plugins-2.3.3.tar.gz
+   29  clear
+   30  tar -xzf nagios-plugins-2.3.3.tar.gz
+   31  cd nagios-plugins-2.3.3
+   32  ./configure --with-nagios-user=nagios --with-nagios-group=nagios
+   33  clear
+   34  make
+   35  clear
+   36  sudo make install
+   37  clear
+   38  sudo systemctl restart httpd
+   39* sudo systemctl enable httpd
+   40  ====================================
+   41  yum install -y firewalld
+   42  =====================================
+   43  sudo systemctl restart firewalld.service
+   44  sudo systemctl enable firewalld.service
+   45  sudo firewall-cmd --permanent --add-port=80/tcp
+   46  clear
+   47  ======================
+   48  =======================
+   49  firewall-cmd --reload
+   50  clear
+   51  curl  ifconfig.me
+   systemctl status nagios.service
+   systemctl restart nagios.service
+   systemctl enable nagios.service
+   systemctl enable httpd
+   systemctl restart httpd
+   systemctl restart nagios.service
+   58  /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+   59  systemctl restart nagios.service
+   60  systemctl status nagios.service
+   61  cat /var/log/httpd/error_log
+   62  cd /var/www/html/
+   63  ll
+   64  echo "test" >> index.html
+   65  /usr/local/nagios/etc/htpasswd.users
+   66  cd /usr/local/nagios/etc/
+   67  ll
+   68  =============================================================
+   69  ==============================================================
+   70  sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+   71  systemctl status nagios.service
+   72  systemctl restart nagios.service
+   73  curl ifconfig.me
+   74  history
+   75  clear
+   76  ll
+   77  cd
+   78  cd /etc/
+   79  ll
+   80  cd -
+   81  cd  /usr/local/nagios/etc/
+   82  clear
+   83  ll=========>last step
+   84  vi nagios.cfg
+   85  vi /usr/local/nagios/etc/nagios.cfg
+   88  vi /usr/local/nagios/etc/nagios.cfg
+   89  vi /usr/local/nagios/etc/objects/client.cfg
+   95  /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+   96  sudo systemctl restart nagios
+   97  history
+   sudo usermod -a -G nagios apache
+sudo usermod -a -G apache nagios
+sudo chown -R nagios:apache /usr/local/nagios/var/rw
+sudo chmod 660 /usr/local/nagios/var/rw/nagios.cmd
+sudo systemctl restart nagios
