@@ -1,0 +1,810 @@
+AWS SOLUTION ARCHITECT ASSOCIATE  (IAAS)
+
+The account limit for vpc per region is 5
+EC2 20 can create each region   
+RDS Limits:Upto 40 DB per account.
+
+What is a Cloud? AWS(Amazon Web Service)
+Cloud is a data center multiple data center made up of compute & storage resources connected by network. highly scalable,fast & secure.can access anytime & any where through a network.
+
+Benifits:
+Cost Saving
+Scalability
+business continuty
+Flexibality
+Loss prevent
+
+The three-tier architecture is the most popular implementation of a multi-tier architecture and consists of a single presentation tier, logic tier, and data tier.
+ 
+6 Pillers in AWS
+
+1.Operational Excellence-		ability to support development and run workloads effectively
+2.Security-			ability to protect data, systems,
+3.Reliability-			Automatically recover from failure, Test recovery procedures
+4.Performance Efficiency- 		Democratize advanced technologies, Use serverless architectures, 
+5.Cost Optimization		ability to run systems to deliver business value at the lowest price point, Implement cloud financial management			
+6.Sustainability			Understand our impact, Maximize utilization, 
+
+
+Physical location/region: 32	 	4 more will be launch(Canada, Israel, New Zealand, and Thailand)
+Availability zone:	102  			12 more will be add.
+
+Regions: AsiaPacific(Mumbai,singapure), Europe(Ireland, london), US west (N.verginia, ohio)
+
+*Common serivce which can use all regions:  IAM, CloudFront, Route53, Global Accelerator, Direct Connect, AWS Firewall Manager, AWS Web Application Firewall (WAF)
+
+IAM: AWS Identity and Access Management 
+IAM identity centre- Can give specific permissions.
+
+2 method to apply the policy
+1. Visual editor
+2. JSON
+
+Policies (1163)
+10 polices we can apply in group.
+*   1 user we can add maximum 10 groups.
+*   IAM we can create 5000 users maximum.
+*   300 IAM group can create.
+
+2 Types polices:
+1.	Managed polices (managed by AWS)
+2.	Inline polices(Customisable)
+
+SSO: Single sign-on access is an authentication solution that allows users to log in to multiple applications and websites with one-time user authentication.
+IAM user – An IAM user is an identity within your AWS account that has specific custom permissions (for example, permissions to create a directory in AWS SSO).
+
+STS: Security Token Service
+
+What are Temporary Security Credentials?
+These are short-lived security credentials. These you can create from AWS security Token Service.
+
+1. Can we attach role to group or user?
+No, only policy we can attach to user and group, roles is specifically for allowing access between different set of services.
+
+   User - An IAM user is an identity with long-term credentials that is used to interact with AWS in an account.
+   Groups - An IAM user group is a collection of IAM users
+   Roles-An IAM role is an identity you can create that has specific permissions with credentials
+   Polices -A policy is an object in AWS that defines permissions.(Read only, Full access etc)
+
+
+IAM multifector authontication types:
+
+Security Key (FIDO security keys)
+Virtual MFA device (Virtual authenticator apps):	Duo mobile, MS authenticator, symantic VIP.
+Other Hardware(TOTP hardware tokens)
+
+What are the 5 top security credentials in AWS IAM?
+
+User-id and Password
+E-mail address and Password
+Access Keyes
+Key pair
+Multi-factor authentication
+
+
+VPC: NETWORKING                             
+
+What is VPC?
+Virtual Private Cloud we can customise N/W configuration of our vpc. We can leverage multiple layers of security including SG & NACL to EC2 instances.
+
+PORT NUMBER:  HTTPS-443, HTTP-80, SSH-22, TCP-80,UDP-53, RDP-3389, TLS-587, MYSQL/AURORA-3306,POP3-110, SMTPS-465, DNS-53, SMTP-25, TCP/UDP-1500, FTP-20/21, 
+
+PRIVATE IP: 		10.0.0.0 - 10.255.255.255 -(CIDR: 10.0.0.0/8)		used in larger organizations, 16 million host addresses.
+			172.16.0.0 - 172.31.255.255 (CIDR: 172.16.0.0/12)-		used in medium to large-sized networks, over a million host addresses.
+			192.168.0.0 - 192.168.255.255 (CIDR: 192.168.0.0/16)-	used in home networks, small businesses, 65,536 host addresses.
+
+Create VPC:
+Subnet(Private & Public if required) 
+Internet gateway- attach to public vpc
+Route table-, select ip, attach IG for public, Subnet association (attach subnet)
+Route table for private dont select any route, don't attach IGW just attach private subnet in subnet Subnet association.
+Security Group- enable the required ports.
+
+NAT Gateway: Enable instances in a private subnet to connect to the internet & other aws services.
+Route table: Route the network traffic from subnet or gateway is directed.
+IGW: allow the communication between vpc & the internet.
+VPN: a secure connection between on premises equipment & our vpc’s.
+SUBNET: Range of ip address.
+Subnet assoication: Comes under route table & need to attach for communicating with range of ip address.
+SG: A security group acts as a virtual firewall for your EC2 instances to control incoming and outgoing traffic. Inbound rules control the incoming traffic to 
+your instance, and outbound rules control the outgoing traffic from your instance.
+Endpoint: A VPC endpoint enables connections between a VPC and supported services, without requiring that you use an internet gateway, 
+                  NAT device, VPN connection, or AWS Direct Connect connection. Therefore, your VPC is not exposed to the public internet.
+
+ VPC Peering?
+A VPC peering connection is a networking connection between two VPCs that enables
+you to route traffic between them using private IP addresses. VPC peering allows you
+to deploy cloud resources in a virtual network that you have defined. ... Data can be
+Transferred across these resources with more security.
+
+
+VPC Peering:
+Create 2 VPC
+Create Peering connection, request peering connection by VPC 1 to 2, accept, 
+Route table allow ip in "target" attach vpc peering & save. nw it will work.
+
+
+
+Peering formula n(n-1)/2.		(n- vpc count, ex: 4 vpc 4(4-1)/2, 4(3)/2, 12/2, Final 6 peering required. 
+
+Transit Gateway?
+A transit gateway is a network transit hub that you can use to interconnect your virtual private clouds (VPCs) and on-premises networks. As your cloud infrastructure expands globally, 
+inter-Region peering connects transit gateways together using the AWS Global Infrastructure
+
+create vpc, subnet, rt, ig(public) ec2
+
+TG-create-TG attachment-attach TG & VPC-TG route table.
+Route table-add route-give cider block-target TG-save. Now it will work.
+
+1 gate way for many vpc. Evry avaibility zone have atleast 1 subnet vry imp requirement. 
+single availbility zone can create multiple subnets.
+
+VPN: create vpc, ec2, virtual private gateway, attach, customer gate way add on premises ip, site to site, create name,ip etc, check tunnel status, route propagation, 
+vpg, enable, site to site, download configuration, login ec2, install required things in ec2.
+
+In download config change 4 things, left id customer end, right id aws vpn, left subnet, rgt subnet. Finally tunnel must be up, create ec2 in aws side, access & check.
+
+2^24 = 254
+2^16=65534
+2^32=1
+
+  	 Security Group							      			NACL
+Operates at instance level								Operates at subnet level
+supports allow rules only								Supports allow & deny rules
+Is statefull-return traffic automatically allowed			Is stateless-return traffic allowed by rules
+applies instance only									Automatically applies to all instance
+
+FLOW LOGS: VPC Flow Logs records a sample of network flows sent from and received
+
+Destination path:
+Send to CloudWatch Logs
+Send to an Amazon S3 bucket
+
+Send to Kinesis Firehose in the same account
+Send to Kinesis Firehose in a different account
+
+Configure: Select VPC-create flow log-name-filter(accept/reject)-time to update like 1/5 min-destination(cloud watch/s3)-IAM role-create.
+
+
+How to connect privat server by public server?
+
+1 How to connect ec2 instance in a private subnet
+2.1 Create a NAT Gateway in public subnet
+2.2 Configure Private Route Table for NAT gateway
+2.3 Add default security group of your VPC to private server
+2.4 SSH to private server from public server and Install MySQL database
+
+AWS DIRECT CONNECT:
+AWS Direct Connect makes it easy to establish a dedicated network connection from your premises to AWS.Using AWS Direct Connect, you can establish private connectivity between AWS and your 
+datacenter, office, or colocation environment.
+
+It Supports only 802.1Q VLAN encapsulation
+
+Benifits:
+Reduce our ntwrk costs
+Increase bandwidth throughput
+Private connectivity with multiple VPC
+Elastic it provide 1Gbps to 10 Gbps
+
+Use Case:
+Working with large data sets
+Real time data feeds-can control how data is routed
+Hybrid envirments-we can build hybird envirments for private connectivity
+
+How it works:
+ADC Location/size-Decide location & connection size
+Create connection request
+Letter of autherization(LOA)-Download the letter from the console
+LOA to Amazon APN-Ask the APN partner to establish the connection
+Conigure Interfaces-Configure virtual interfaces to establish ntwrk connection.
+
+Conection ordering type:
+Classic- For existing setup
+Connection Wizard-For new setups 3 Types 1.Maximum Resiliency.2.High Resiliency3.Development and Test
+
+How Configure:
+1.Connections
+Open Direct connect
+Location-Hyderbad
+select connection type(Classic/Connection wizard)	
+Port speed- 1GB/10 GB
+Service provider-Tata
+2.Vitual interfaces-Private, Public, transit-Connection-Owner-etc
+3.LAG's-Existin/New connections-Name-number of connections(4 is max, min 2)-etc
+4.Direct connect gateway-Name-Amazon side ASN
+5.Virtul private Gateway
+6.Transit Gateway
+
+
+LOAD BALANCER & AUTOSCALING: HIGH AVAILIBILTY & FAULT TOLERENCE
+
+What are load balancers used for?
+Load balancers improve application availability, responsiveness and prevent server overload. It is used to distribute the incoming application traffic to multiple EC2 instances for HA.
+
+3 Types of Load balancer:
+
+1. Application LB: The Application Load Balancer distributes incoming HTTP and HTTPS traffic across multiple targets such as Amazon EC2 instances, microservices, and containers.
+ 
+Application N/W (Layer 7) app & nw must be same ntwrk.
+supports path-based routing, and can route requests to one or more ports on each container instance in your cluster.  
+
+Using for application traffic HTTP & HTTPS 80, 443, handling application, web sites.
+
+2. Network LB: The Network Load Balancer distributes incoming TCP and UDP traffic across multiple targets such as Amazon EC2 instances, microservices, and containers
+
+AWS Network Load Balancer  that distributes end user traffic across multiple cloud resources to ensure low latency and high throughput for applications.
+The Network Load Balancer distributes incoming TCP(80,8080) and UDP(53) traffic across multiple targets such as Amazon EC2 instances, microservices, and containers
+N/W Lb (Layer 4) 
+
+Using for low latency ex (Game servers) TCP-80, UDP-53, TLS-587
+
+3. GLB: Gateway Load Balancer helps you easily deploy, scale, and manage your third-party virtual appliances.
+ It gives you one gateway for distributing traffic across multiple virtual appliances while scaling them up or down, based on demand.
+Using with 3rd party service
+
+
+4. Classic LB: A load balancer distributes incoming application traffic across multiple EC2 instances in multiple Availability Zones. 
+This increases the fault tolerance of your applications. Elastic Load Balancing detects unhealthy instances and routes traffic only to healthy instances. 
+
+
+Create LB: 
+
+LB & Select type
+Add listener(http/https-80 443)
+VPC (imp avaibility must be select 2 and different zones)
+Security group
+Target Group(imp 3 types instance,ip,lamda)
+Register targets(Your servers)
+Advance health check if required 
+Review & save.(Check with server DNS name)
+
+
+• TARGET GROUP- A target group tells a load balancer where to direct traffic".
+Target group (routes the request which we’ve given like instance, ip, lamda function)- imp
+ 3 type target group. 1.instance, 2. ip, 3. Lambda function – select instance-nxt.
+
+• LISTENER- "A listener is a process that checks for connection requests". It is configured with a protocol and a 
+port for front-end (client to load balancer) connections, and a protocol and a port for back-end (load balancer to back-end instance) 
+connections. listeners (checks for connection requests, Protocol/port no ex https 443, http 80)- vpc(Subnet vv imp)- SG
+
+• REGISETER TARGET- To register the instance, select 1 or more registered instance to distribute the load.
+Register target-(select/ register the servers)- review- create.
+
+Path Based routing: listener-view edit rules-click(+)-insert rule-path ex- /service* (*anything)-THEN-forword to-select TG-1-click (rgt symbol)-save--again path-/chat*-TG-2-save.
+Ex: Gmail,photos,drive
+
+Troubleshoot:
+
+ *Clint/user unbale to connect :
+1.LB bknd instance status(2/2 check status)
+2.Check SG & ACL for requireds pots are opend or not.(Litener ports like 80,443) in LB & Ec2, & VPC NACL inbond rules ports or ip.
+3.LB health check configr need to be verified.(LB-Listenr-health check-path cd/ var/www/html) like reponse timeout, interval, unhealthy thrsold etc.
+4. Try to restart the service (Concern team will do) system restart httpd.
+
+systemctl restart httpd-Restart the application service.
+Ec2-TG-Edit health check
+
+
+AUTO SCALING: 
+
+AWS Auto Scaling monitors your applications and automatically  scale in and scale out based on the demand.
+
+Scalling out: Number of server increase
+Scalling In: Terminate the server
+
+AWS Auto Scaling monitors your applications and automatically adjusts capacity to maintain steady, predictable performance at the lowest possible cost.
+
+•Metric type:  like CPU utilization, ntwrk in, ntwrk out, etc.
+
+Configure Auto Scaling:
+
+Create EC2
+Image & templets(comes under EC2-Action),create image,(once done will show AMI option)
+
+Launch template:  "Json scripts" Choose a launch template that contains the instance-level settings, such as Diffrnt types of os win,redhat,mac,
+amazon linux,ubantu,the Amazon Machine Image (AMI), instance type, key pair, and security groups etc.
+
+Launch configuration:
+Choose a launch configuration that contains the instance-level settings, such as the Amazon Machine Image (AMI), instance type, key pair, and security groups.
+Select a launch configuration
+
+Create Auto Scaling
+name, launch template(Json template) or  launch configuration(Your AMI)
+VPC, health check
+Group size & scaling polices (ex:desired 2, minimum 1, maximum 4)
+Metric type(cpu utilization, memory, etc)
+select event types such as launch,terminate,fail to launch etc,
+Select notification type like SMS, Mail. validate & Create.
+
+Snapshot: EBS/Volume backup. 
+AMI: Backup of the entire EC2 instance that might have multiple attached volumes, exactly like virtual machines.
+
+3 types health checks:
+
+Ec2, ELB & Custom.
+
+Horizontal: Increase the resorce ex:Amazon fest
+Vertical: t2 micro, t2 nano
+
+Scaling policy types:
+Target scaling policy- Metric type average cpu utilization ex: when cpu reached 50% new instance will create.
+Step scaling-create cloud watch we can add action
+Simple scaling-create cloud watch & add action
+
+TROUBLESHOOT:
+
+1.Auto scalling issues.
+ * Check scaling polices, scale out and scale in are trigered at the same time.
+ *Check auto scalling  alrdy reach maximum or minimum numbr of instances.
+ * Cooldown- When instance 70/80%,  for creating a new instance minimum  it will wait for 5 min (300 sec)  bcz to prevent your Auto Scaling group from launching or terminating additional instances before the effects 
+   of previous activities are visible.this is default time.
+  Warm up- Default 60 sec, if not added wt hpnd means utilization suddenly will go high and come down within a fraction of sec to avoid this we'll use.
+ * Check lifecycle hook configured or not, If not updating any packages it will use kind of data it will put on wait.(Autoscaling grp, instance mgmt)
+ *Check any sheduling action configured which mgt be conflicting in auto scaling grp.
+
+
+EC2:
+Elastic Compute Cloud, Elastic virtual servers in cloud. EC2 is a web service that provides secure, resizable compute capacity in the cloud.
+20 EBS volume can attach to a instance.
+
+Using intance in real time: 
+C5 LARGE- 2 CPU,4 memory
+C5XLARGE-4 cpu, 8 memory
+C52XLARGE-8 cpu,16 memory
+M5XLARGE-4 cpu, 16 memory
+
+Keep the key pairs safely.
+
+2 types of storages/AMI types: 
+1.EBS- Elastic Block Storage, Storage kept outside of the instance.
+2.Instance Store- It's availble inside host from where it has taken.when shutdown the machine data will be lost.
+
+1/2 check- OS level
+2/2 check- Hardware and server health
+
+Amazon EC2 Instance Types: 
+1.General Purpose: balance memory & CPU.     A1,M,T series          A1(arm processer), T series(t2,t3), M series (m4, m5, m6g)
+2.Compute optimized (High performances processors.):More CPU & RAM C series       (C series (C7g, C6g, C5, C5a) 
+3.Memory Optimized: More RAM  (R series)       
+4.Accelerated Computing: Graphic optimized (P series)  
+5.Storage Optimized: Low latency & high speed storage (D2, D3, H1 series)    
+
+
+EBS Volume types:
+1. General Purpose SSD GP2:volumes offer cost-effective storage that is ideal for a broad range of workloads.
+Size: Min baselin 1 GiB, Max: 16384 GiB. 	
+IOPS: Minimum 3 iops per GB, maximum 16000 iops.
+	
+2. General Purpose SSD GP3:
+Size: Min: 1 GiB, Max: 16384 GiB.
+IOPS: Min: 3000 IOPS, Max: 16000 IOPS. 	
+
+3. Provisioned IOPS SSD io1:volumes provide low latency and are designed to meet the needs of I/O-intensive workloads. They are best for EBS-optimized instances
+Size: Min: 4 GiB, Max: 16384 GiB.
+IOPS: Min: 100 IOPS, Max: 64000 IOPS (up to 100 IOPS per GiB)
+99.8% durability each year
+	
+4. Provisioned IOPS SSD io2:
+Size: Min: 4 GiB, Max: 65536 GiB. 
+IOPS: Min baselin 500 IOPS, Max: 4000 IOPS (up to 1000 IOPS per GiB)
+99.999% durability each year
+
+
+5. Throughput Optimized HDD
+6. Cold HDD
+7. Magnetic
+
+
+*  Mainly General Purpose & Provisioned IOPS using.
+
+Root device type EBS: SSD gp2/gp3    /dev/xvda (Root volume mounted path in linux)      /dev/sda1 (Root volume mounted path in windows) Root volume type:SSD,Magnetic std(SSD recomended)
+EBS attched volume path: /dev/sdb (sdb/sdc/sdd etc)
+
+Snapshot stored in S3
+
+EC2 Pricing options:
+On demand- Fixed rate per hour or per sec
+Reserved- The contract will be more ex: 3 years price bit low
+Spot instances-allows to bid 
+Dedicated Host-It can be purchased reservation upto 70%
+
+Percisent storage: If restart the system data will be availble in attched EBS.
+
+Create Automatic Snapchats:(lifecycle manager)
+Create tag-Instance-Tags-Manage Tags same for EBS volume if required lifecycle manager-trgt resourse type(Volume, instance)-Trgt resourse tag
+
+EC2 auto start & stop:  
+Services[IAM policy, cloudwatch, SNS, Lambda]
+Create IAM policy-Policy-copy policy to Json-review-create policy
+Roles-Lambda-select policy-create
+
+Lambda-Create function(Start & Stop)-select IAM created role-create
+Lamda-Come down & paste the code(Start/Stop)-save (same for start & stop)
+
+Cloud watch-Rules-Create rule-shedule-cron expression-add target-lamda-stop/start-if required add SNS etc in add target-configure.
+default time will be GMT need to convert to IST. 5:30 min diffrnce to IST
+
+EC2 Trouble shoot:
+ * Security grp port number (3389-RDP/22-SSH)
+ * Instance current status running or not
+ * EC2 instance status checks 2/2
+ 1/2- N/W, EBS attched, os level
+ 2/2- Server level, hardware level.
+ * Need to check intance screen shot in Ec2 console(Actions-moniter & trblsht)
+ * system logs in Ec2 console
+ * Cloud trail- any recent changes in that instance
+ 
+Networking Side:
+ * Inbund rules allow/deny port numbers
+ * Private/public  If it's public check IGW atthed or not
+ * VPC have IGW or Not
+ * VPC has RT entries or Not
+ * If all not working restore with latest snapshot backup.
+
+Admin pw forgot: Detach root volume & attched to new server-disk mgmt-enable attched volume(pw lost server root volume)download Ec2 rescue tool-open tool-offline instance-selct disk-diagnse & rescue-
+rest admin pw-reset admin pw-detach volume-reattch to old srvr-root volume /dev/sad1-
+
+*  Snapshot can be copy 1 region to another.
+*  Create snapshot by volume to use the volume to another AZ.
+*  MBR can extend upto 2 TB
+*  GPT can extend more
+*Linux root volume size 8GB, Wn 30 GB.
+
+How to access private Ec2:
+Bastion Host(Jump servers) or VPN or Direct connect
+Now- Ec2 instance connect endpoint
+
+How to access Ec2 in CLI:
+
+ssh -i  C:\Users\6000102\Downloads\Cli_KP.pem ec2-user@43.204.32.85
+
+Recover deleted keypairs:
+
+
+
+
+S3- STORAGE (Simple Storage Service) 99.999999999 (11 9)durability.
+S3 provides a object storage through a web service interface. Highly scalable & pay what you use. Cloud storage, unlimited.
+
+Benefits: Great performance, Secure, low cost, scale-Policy shedule(day, retantion type etc)
+
+100 buckets can create per region. 1000 maximum.
+5TB is the maximum possible size of an S3 bucket in 1 object. 
+
+3 types of cloud data storage: 
+ 1. Object storage-Photos,videos
+ 2. File storage-Applications & stores data
+ 3. Block storage-Os, data bases
+
+256-bit AES encryption (Advanced Encryption Std) (SSE-S3- Server Side Encryption by deafault by AWS free)
+We encrypt your data using 256-bit AES encryption, also known as AES-256, one of the strongest block ciphers available. 
+You can apply encryption to data stored using Amazon S3's Standard or Reduced Redundancy Storage options.
+
+Encryption type info:
+Server-side encryption with Amazon S3 managed keys (SSE-S3)
+Server-side encryption with AWS Key Management Service keys (SSE-KMS)
+Dual-layer server-side encryption with AWS Key Management Service keys (DSSE-KMS)
+
+Use caes: Customers of all sizes and industries can use Amazon S3 to store and protect any amount of data for a range of use cases, 
+such as data lakes, websites, mobile applications, backup and restore, archive, enterprise applications, IoT devices, and big data analytics.
+
+S3-Create bucket & name (domain name ex: lickyen.store)-upload file-make public-properties-enable static web site hosting, edit, 
+index.html error.html-save-permission, bucket policy, edit, apply bucket policy or google, paste, change bucket name in policy,  -save.
+
+S3 Storage Types: 
+1. General Purpose SSD (gp2 and gp3) volumes offer cost-effective storage that is ideal for a broad range of workloads.
+2. Provisioned IOPS SSD (io1 and io2) volumes provide low latency and are designed to meet the needs of I/O-intensive workloads. They are best for EBS-optimized instances.
+3. Throughput Optimized HDD (st1) volumes provide low-cost magnetic storage that is a good fit for large, sequential workloads.
+4. Cold HDD (sc1) volumes provide low-cost magnetic storage that offers lower throughput than st1. sc1 is a good fit for large, sequential cold-data workloads that require infrequent access to data.
+5. Magnetic (standard) volumes are best suited for workloads where data is accessed infrequently.
+
+S3 Bucket types:(S3-Mngmnt)
+1. Infrequently access (monthly once) 
+2. Intelligent Tiering: No minimum storage duration
+3. Glacier instant retrivel: 90 days minimum duration 
+4. Glacier deep archive: 180 days minimum duration 
+
+Copy data 1 bucket to another automaticaly using LAMDA:
+Create S3 bucket- Primary & secondary to copy
+Lamda-choose langauage(Python,java etc)-IAM poicy-review-Create
+Add triger-S3-select bkct-event type etc add-function code(copy the policy & modify policy)-save
+S3 bckt-uplod file & check
+
+Copy the data using CLI:
+frst download & install CLI to system
+open cmd-aws configure
+
+to check the bucket lists													aws s3 ls																						
+create bucket			 																							aws s3 mb s3://bucket-name	
+delete the bucket																									aws s3 rb s3://bucket-name	or  aws s3 rb s3://bucket-name --force
+Delete file																										aws s3 rm s3://bucket-name/example/filename.txt	
+Delete object																									aws s3 rm s3://bucket-name/example --recursive
+moves all objects													  												aws s3 mv s3://bucket-name/example s3://my-bucket/
+moves a local file from your current working directory to the Amazon S3 bucket with the s3 mv command.				aws s3 mv filename.txt s3://bucket-name
+moves a file from your Amazon S3 bucket to your current working directory, where ./ specifies your current working directory.		aws s3 mv s3://bucket-name/filename.txt ./
+copies all objects from s3://bucket-name/example to s3://my-bucket/.								aws s3 cp s3://bucket-name/example s3://my-bucket/
+copies a local file from your current working directory to the Amazon S3 bucket with the s3 cp command.				aws s3 cp filename.txt s3://bucket-name
+copies a file from your Amazon S3 bucket to your current working directory, where ./ specifies your current working directory.		aws s3 cp s3://bucket-name/filename.txt ./
+ uses echo to stream the text "hello world" to the s3://bucket-name/filename.txt file.						echo "hello world" | aws s3 cp - s3://bucket-name/filename.txt
+streams the s3://bucket-name/filename.txt file to stdout and prints the contents to the console.					aws s3 cp s3://bucket-name/filename.txt -
+synchronizes the contents of an Amazon S3 prefix named path in the bucket named my-bucket with the current working directory.	aws s3 sync . s3://my-bucket/path								
+
+
+SNS:
+
+Simple Notification Service (Amazon SNS) is a fully managed messaging service for both application-to-application (A2A) and application-to-person (A2P) communication.
+
+What Can Amazon SNS be used for?
+Amazon SNS enables you to send notifications directly to your customers. Amazon SNS supports SMS text messaging to over 200 countries, 
+mobile push notifications to Amazon, Android, Apple, Baidu, and Microsoft devices, and also email notifications.
+
+Configure:
+Create topic
+Subscription-Like sms, email etc
+publish message
+
+
+Cloud trail: Captures all the records including services.
+
+it will be stored in s3
+
+Check the logs: Ex: particular IAM user logs
+cloud trail-Event history-
+
+Configure:
+
+Cloud trail-cretae trail-select storage location(S3)-nxt-Event type(mgmnt events,insigts)-create. 
+
+Event 3 types:
+1. Management events-Free & can be viewed in event history 90 days.
+2.Data events-
+3.Insights events-
+
+Cloud watch: CloudWatch monitor resourse, applications and use alarms, logs, and events & will report the rsource health.
+
+Check the logs:
+cloud watch-Log(log groups)-
+
+Configure:1
+Cloud watch
+Metrics-search with instance id
+Select metric name (cpu utilization,ntwrk in-out) For create alarms: 
+acton-add to dash board
+
+Method 2:
+Events-rules-Event pettern-select serivies-etc
+Add target(ex:SNS topic)
+create rule.
+
+
+
+RDS:
+
+Amazon Relational Database Service (RDS) is a collection of managed services that makes it simple to set up, operate, and scale databases in the cloud.
+
+AWS Managed below the points.
+* Security & patching
+* Automated backup
+* Software update to DB engines
+* maintance weekly/monthly
+* If we select multi AZ option, synchronously replication between active & stand by instance.
+* Automatic failover if multi AZ was selected.
+
+Amazon Dynomo DB: Fast & flexible NoSql DB service
+
+Engine types:
+Aurora Mysql, Aurora postgre SQL, MySQL, MariaDB, Oracle, Microsoft SQL Server, and PostgreSQL.
+
+What is multi-AZ in RDS?
+In an Amazon RDS Multi-AZ deployment, Amazon RDS automatically creates a primary database (DB) instance and synchronously replicates the data to an instance in a different AZ.
+When it detects a failure, Amazon RDS automatically fails over to a standby instance without manual intervention.
+
+2 Types of licence:
+BYOL (Bring your own licence)
+licence from AWS an hourly wise.
+
+RDS Limits:
+Upto 40 DB per account.
+ 
+Estimated monthly costs for below:
+DB instance
+Storage
+Provisioned IOPS
+
+Create DB:
+Access by Putty: sudo su -
+yum install -y mysql
+mysql -h (copy RDS endpoind url) -u admin(DB username) -p MP1(DB name) enter password [u can login to DB now] 
+Mysql[Db1]>
+
+Inbond rule: SSH 22, Data base port number (MYSQL Aurora)3306
+
+Host(endpoint),username & pw- To connecting the database.
+
+IMP to access DB by EC2:
+sudo su
+yum -y install mariadb-server
+systemctl enable mariadb
+systemctl start mariadb
+
+Disaster recovery:
+Disaster recovery is the process of maintaining virtual infrastructure and systems.an go down unexpectedly due to unforeseen circumstances, such as power outages, natural events, or security issues.
+RDS supports DR:Automated backup, Manual backup & read replicas.
+
+Why do you need a DR plan?
+For a production environment, it is important to take precautions so that you can recover if there’s an unexpected event. While Amazon RDS provides a
+highly available Multi-AZ configuration, it can’t protect from every possibility, such as a natural disaster, a malicious actor, or logical corruption of a 
+database. To maintain business continuity, it is important to design and test a DR plan.
+
+RDS Troubleshoot:
+unable to connect IF IT'S IN PUBLIC SUBNET- check connectivity & security(publicly accessble) for any changes slect APPLY IMMEDIATELY.
+Security grp issue-(Inbond rules,port no,local system ip etc)
+Attach IGW
+
+PRIVATE NTWRK:
+Secutiy grp- add ec2 instance SG 
+
+DIFFRNT LOCATION
+Enable peering connection
+DBRoute table- CIDR range RDS vpc,target-peering connection-save
+VPC RT-vpc entire CIDR range-peering connection-save
+VPC SG-inbond-all trafic-EC2 private ip-save
+
+
+LAMBDA  
+
+AWS Lambda is a serverless compute service that lets you run code for virtually any type of application without managing servers.
+
+ex: S3, if upload anything in primary bucket same copy automatically back in secodary bucket using lamda function.
+
+Why Lambda:
+No server Needed
+autometic scalability
+Flexibility
+Focus on code
+
+Use:
+Serverless web appliccation
+Bakend cleaning- Automated backups 
+Chat boats
+Amazon alexa
+
+
+Benefits: Minimized Cost. Automatic Scalability. Less Operational Management. Quicker Iterative Development.
+
+Lambda runs your code on highly available, fault-tolerant infrastructure spread across multiple Availability Zones (AZs) in a single Region, seamlessly deploying code,
+and providing all the administration, maintenance, and patches of the infrastructure.
+
+Services must be a same region (ex: lambda/s3/dynamo db)
+
+Supporting programming languages:  Node.js, C#, Python, Ruby, java etc.
+
+
+CLOUD FORMATION:
+
+AWS CloudFormation automates & simplyfies the task. Create and manage resources with template.
+
+You create a template that describes all the AWS resources that you want (like Amazon EC2 instances or Amazon RDS DB instances)
+
+We can use same templates to launch the resources.
+
+Templates: A Template in AWS cloudformation is a formatted text file in JSON & YAML language that describes AWS infrastructure.
+
+To create view & modify tool AWS CLOUDFORMATTION DESIGNER or any othe text tool.
+
+STACK: a collection of AWS resources is called stack.
+
+Steps:
+Format vesion-Decription-Metadata-Parameter-mapping-Condition-Transform-Resource-Output.
+
+Benifits:
+
+Deployment speed. ...
+Scaling up. ...
+Service integration. ...
+Consistency. ...
+Security. ...
+Easy updates. ...
+Auditing and change management. ...
+Template.
+
+
+Rout53 – Amazon Route 53 is a scalable and highly available Domain Name System.
+
+What is DNS referred in R53: A DNS service that translates human readable names like www.example.com.into the numeric IP addresses like 192.0. 2.1 that computers use to connect to each other.
+
+Use cases: Domain registration,transfer existing domain, DNS routing from domains to aws & external resources, and moniter the health of our resources. 
+
+Alias No: Ip address
+Alias Yes: Cloud front, LB etc, s3 hosting.
+ 
+•	NS record- Name Server (Need to add in domain, 4 value-.uk .com .net. org) add in dns name servers. (it will show while creating the hosted zone)
+•	A Name record- Alias records(ex ip address,) let you route traffic to selected AWS resources, such as CloudFront distributions and Amazon S3 buckets.
+•	CNAME record- Canonical domain name. CNAME records are typically used to map a subdomain such as www or mail to the domain hosting that subdomain's content.
+•	MX Record (Mail Exchange Record)-A MX record is a configuration that specifies which mail servers can accept email that's sent to your domain.
+•	Hosted Zone: A hosted zone is a container that holds information about how you want to route traffic for a domain. ex- example.com & it's sub domains.	
+
+Types of Routing polices:
+> simple-route the traffic to a single resource.
+> failover-route the traffic to primary or secondary. primary resource unhealthy must have health check.(active(ex primary) passive(secondary)) TTL 30 to 60 sec.
+> Geolocation-serve the traffic based on your user location.
+
+DNS mgt, create hosted zone, ur domain name-create.
+Go to ur domain website & select domain (ex-hostinger-lickyen.store)-paste aws name server in ur domain
+
+Configure R53:
+Create Hosted Zone(Under DNS mgmt)
+once created we can see 4 Name servers ex:.org, .uk. .com, .net(under the values)
+Open you domain (in go daddy or some other) & attach Manage domain, mgmt tools, Name servers, use custom name server, change NS
+Create record set, name-(type A-ipv4), Alias No(enter server ip) if u click Yes we can choose many options ex:S3, LB, etc.Create.
+
+
+CLOUD FRONT: n imp
+Amazon CloudFront is a content delivery network, that securely speeds up distribution of your static and dynamic web content, such as. html, http, https, ... CloudFront delivers your content through a 
+worldwide network of data centers called edge locations
+
+CDN: content delivery network.
+Use Cases: Deliver fast, secure websites with low latency high transfer speeds.
+AWS cloud font charges:
+
+Data trasfer out (internet/origin)
+HTTP/HTTPS requests
+Invalidation requests
+Field level encryption requests
+SSL certificates
+
+
+CI/CD Pipeline:
+
+What is a CI/CD pipeline?
+Continuous Integration/ Continuous Delivery. The pipeline is responsible for building codes, running tests, and deploying new software versions.
+
+Configuration:
+IAM- Create 2 roles, 1. Ec2-Amazonec2roleforcodedeploy-role name-create.
+				     2.Search-code deployement-code deploy-nme-create.
+Ec2-Attach created IAM role-Launch.
+Goto CodePipeline-Deploy-code deploy-create application
+Create Application
+Code Pipeline-Pipeline- build the pipeline.
+
+Add this while launching the Ec2:
+#!/bin/bash
+sudo yum -y update
+sudo yum -y install ruby
+sudo yum -y install wget
+cd /home/ec2-user
+wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+sudo chmod +x ./install
+sudo ./install auto
+sudo yum install -y python-pip
+sudo pip install awscli
+
+
+Name the three different types of pipelines in Jenkins?
+CI/CD pipeline 
+Scripted pipeline
+Declarative pipeline
+
+Name some of the useful plugins in Jenkins.
+Maven 2 project
+Amazon EC2
+Copy artifact
+Join
+HTML publisher & Green Balls.
+
+
+AWS Elastic Beanstalk:  n imp
+
+Elastic Beanstalk is a service for deploying and scaling web applications and services. Upload your code and Elastic Beanstalk automatically handles the deployment—
+from capacity provisioning, load balancing, and auto scaling to application health monitoring.
+It supports various platforms such as Java, NodeJs, . NET, PHP, Python, Go, etc.  (tom cat lab)
+
+
+
+
+
+
+
+
+
+
