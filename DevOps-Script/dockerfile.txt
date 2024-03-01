@@ -1,0 +1,9 @@
+ARG version=latest
+FROM ubuntu:${version}
+FROM debian:${version}
+MAINTAINER awscloudrockers@gmail.com
+LABEL description="this is  custom images created using dockerfile"
+RUN apt-get update -y
+RUN apt-get install -y git
+RUN apt-get install -y python3
+RUN mkdir image-folder
