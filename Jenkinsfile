@@ -37,8 +37,6 @@ node {
     writeFile file:"testing-cicd/sample.txt", text: "this is pipeline class"
 
     stage "10. create docker images"
-    sh "docker rm test-ubuntu --force"
-    sh "docker rmi ubuntu amazonlinux fedora centos --force"
     sh "docker pull ubuntu"
     sh "docker pull amazonlinux"
     sh "docker pull fedora"
@@ -46,8 +44,5 @@ node {
     sh "docker pull centos"
     sh "docker images"
     sh "docker run -dit --name test-ubuntu ubuntu:latest"
-    sh "docker rm test-ubuntu --force"
-    sh "docker rmi ubuntu amazonlinux fedora centos --force"
-    sh "docker images"
     sh "docker ps -a"
 } 
