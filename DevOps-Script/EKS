@@ -1,0 +1,22 @@
+• Install eksctl:
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/ eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp sudo mv /tmp/eksctl /usr/local/bin eksctl version   
+
+sudo mv /tmp/eksctl /usr/local/bin
+
+eksctl version
+
+eksctl create cluster --name devops-5pm-dec-besant --region us-east-2 --node-type t2.micro --nodes-min 2 --nodes-max 3 =====> create the server 
+
+aws eks update-kubeconfig --region us-east-2 --name devops-5pm-dec-besant ======> update the server
+
+kubectl get nodes
+
+• NO SHOW THE NODES BELOW COMMAND EXECUTE  
+
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+sudo kubectl version
+
+kubectl version
