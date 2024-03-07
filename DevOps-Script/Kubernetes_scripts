@@ -1,0 +1,125 @@
+vi docker.sh
+
+#!/bin/bash
+sudo yum update -y
+echo "installing git in linux server"
+sudo yum install -y git
+echo "installing docker service in linux server"
+sudo yum install -y docker
+echo "docker was installed and need to restart the service to pick up docker commands"
+sudo systemctl restart docker
+echo "docker service should auto start during boot up time while server restarted"
+sudo systemctl enable docker
+echo "installing docker compose commands for multi-container orchestration"
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+echo "verify the docker and compose version whether installed or not"
+docker --version
+docker-compose version
+
+
+
+
+
+
+vi kubectl.sh
+
+#!/bin/bash
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64
+ls
+chmod +x ./kind
+sudo mv ./kind /bin/kind
+#kubectl installation:-
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+kubectl version --client
+echo $PATH
+echo "export PATH=$PATH:/usr/local/bin" >> ~/.bash_profile
+#export PATH=$PATH:/usr/local/bin
+source ~/.bash_profile
+kubectl version --client
+
+
+sh -x kubectl.sh
+
+kubectl version --client
+
+
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+kubectl version --client
+echo $PATH
+echo "export PATH=$PATH:/usr/local/bin" >> ~/.bash_profile
+#export PATH=$PATH:/usr/local/bin
+source ~/.bash_profile
+
+
+
+
+
+vi workerNodes.yaml    =======> create a new cluster using this script 
+
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+- role: worker
+
+kind create cluster --name=nodes-test --config=workerNodes.yaml =======>this command  execute cluster will be created 
+
+
+
+ vi newConfig.yaml
+
+
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: kind
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 8080
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 44300
+    protocol: TCP
+
+kind create cluster --config newConfig.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml  ====> this is execute ingress rule
+
+
+PODS CREATE SCRIPT
+
+vi  test-deployment.yaml
+
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-app
+  labels:
+    app: test-app
+spec:
+  containers:
+  - name: test-app
+    image: hashicorp/http-echo:latest
+    args:
+    - "-text=The test has been successful!"
+
+
+kubectl apply -f test-deployment.yaml
+
+
+
+
