@@ -1,3 +1,33 @@
+This is Policy attach to lambda function 
+
+
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:Start*",
+                "ec2:Stop*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+This is code create function added inside the function click on deploy and test 
+
 import json
 import boto3
 
@@ -24,3 +54,9 @@ def lambda_handler(event, context):
        ec2.instances.filter(InstanceIds=[id]).stop()
        print("Instance ID is stopped:- "+instance.id)
    return "success"
+
+
+
+
+
+
