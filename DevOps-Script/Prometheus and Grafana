@@ -19,7 +19,7 @@ echo "verify the docker and compose version whether installed or not"
 docker --version
 docker-compose version
 
-
+ git clone https://github.com/stefanprodan/dockprom.git  --- this is using clone the dockprom file
 
 Prometheus public ip:9090=====(user:admin/password:admin)
 
